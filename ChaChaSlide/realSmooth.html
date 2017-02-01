@@ -41,17 +41,31 @@
       background-size:cover;
       background-position:center;
       flex: 1;
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+
     }
-    .panel1 { background-image:url(https://source.unsplash.com/gYl-UtwNg_I/1500x1500); }
-    .panel2 { background-image:url(https://source.unsplash.com/1CD3fd8kHnE/1500x1500); }
-    .panel3 { background-image:url(https://images.unsplash.com/photo-1465188162913-8fb5709d6d57?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&cs=tinysrgb&w=1500&h=1500&fit=crop&s=967e8a713a4e395260793fc8c802901d); }
-    .panel4 { background-image:url(https://source.unsplash.com/ITjiVXcwVng/1500x1500); }
-    .panel5 { background-image:url(https://source.unsplash.com/3MNzGlQM7qs/1500x1500); }
+    .panel1 { background-image:url(https://recordmad.co.za/wp-content/uploads/2016/02/Erykah-Badu-Baduizm.jpg); }
+    .panel2 { background-image:url(https://static1.squarespace.com/static/5534a426e4b0ed810ce8f891/t/576409fc414fb5b78c13e84a/1466173966672/8R5A6006.jpg?format=1500w); }
+    .panel3 { background-image:url(http://assets.audiomack.com/og-legs/ab9f980155dd214be1d5caa554afa0f6.jpeg); }
+    .panel4 { background-image:url(https://images-na.ssl-images-amazon.com/images/I/B13S0YRjQ9S._SL1500_.jpg); }
+    .panel5 { background-image:url(https://images-na.ssl-images-amazon.com/images/I/91uyM2ZEc2L._SL1500_.jpg); }
     .panel > * {
       margin:0;
       width: 100%;
       transition:transform 0.5s;
+      flex: 1 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
+    .panel > *:first-child{ transform: translateY(-100%);}
+    .panel.open-active > *:first-child{ transform: translateY(0);}
+    .panel > *:last-child{ transform: translateY(100%);}
+    .panel.open-active > *:last-child{ transform: translateY(0);}
+
     .panel p {
       text-transform: uppercase;
       font-family: 'Amatic SC', cursive;
@@ -62,6 +76,7 @@
       font-size: 4em;
     }
     .panel.open {
+      flex: 5;
       font-size:40px;
     }
     .cta {
@@ -95,11 +110,26 @@
     <div class="panel panel5">
       <p>Life</p>
       <p>In</p>
-      <p>Motion</p>
+      <p>Wokeness</p>
     </div>
   </div>
 
   <script>
+    const panels = document.querySelectorAll('.panel');
+
+    function toggleOpen(){
+      this.classList.toggle('open');
+
+    }
+
+    function toggleActive(e){
+      console.log(e.propertyName);
+      if(e.propertyName.includes('flex')) {
+        this.classList.toggle('open-active');
+      }
+    }
+    panels.forEach(panel => panel.addEventListener('click', toggleOpen));
+    panels.forEach(panel => panel.addEventListener('transitionend', toggleActive));
   </script>
 
 
