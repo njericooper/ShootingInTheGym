@@ -1,5 +1,5 @@
 const player = document.querySelector('.player');
-const video = player.querySelector('.view');
+const video = player.querySelector('.viewer');
 const progress = player.querySelector('.progress');
 const progressBar = player.querySelector('.progress__filled');
 const toggle = player.querySelector('toggle');
@@ -12,7 +12,7 @@ function togglePlay(){
 }
 
 function updateButton(){
-  const icon = this.pause ? '' : '';
+  const icon = this.paused ? '►' : '❚ ❚';
   console.log(icon);
   toggle.textContent = icon;
 }
@@ -20,11 +20,34 @@ function updateButton(){
 function skip(){
   console.log(this.dataset.skip);
   video.currentTime += parseFloat(this.dataset.skip);
-  
+}
+function handleRangeUpdate(){
+  video[this.name] = this.value;
 }
 
-  video.addEventListener('click', togglePlay);
-  video.addEventListener('play', updateButton);
-  video.addEventListener('pause', updateButton);
+function handleProgress(){
+  const percent = (video.currentTime / video.duration) * 100;
+  progressBar.style.flexBasis=`${percent}%`;
+}
 
-  toggle.addEventListener('click', togglePlay);
+function scrub(e){
+  const scrubTime = (e.offsetX / progress.offsetWidth) * video.duration;
+  duration;
+video.currentTime = scrubTime;
+}
+
+video.addEventListener('click', togglePlay);
+video.addEventListener('play', updateButton);
+video.addEventListener('pause', updateButton);
+video.addEventListener('timeupdate', handleProgress);
+
+toggle.addEventListener('click', togglePlay);
+skipButtons.forEach(button => button.addEventListener('click', skip));
+ranges.forEach(range =>addEventListener('change', handleRangeUpdate));
+ranges.forEach(range =>addEventListener('mousemove', handleRangeUpdate));
+
+let mouse = false;
+progress.addEventListener('click', scrub);
+progress.addEventListener('mousemove', (e) => mouse && scrub(e));
+progress.addEventListener('mousedown', () => mousedown = true);
+progress.addEventListener('mouseup', () => mouse = false);
